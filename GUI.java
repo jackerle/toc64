@@ -64,6 +64,10 @@ public class GUI extends JFrame {
 
     }
 
+    public String summ(){
+        return table.getSummary();
+    }
+
     public void set_page(int index){
         table.setPage(index);
     }

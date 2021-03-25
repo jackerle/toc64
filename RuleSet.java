@@ -54,7 +54,7 @@ public class RuleSet extends ArrayList<Rule> {
         for(int j = 0 ; j < size() ; j++){
             if(get(j).isAccept(getWord(index))){
 //                res+=get(j).getTerminal()+",";
-                Table.state_store[0][index].add(get(j).getTerminal());
+                Table.state_store[0][index].addLog(get(j).getTerminal(),getWord(index));
             }
         }
 
@@ -75,8 +75,8 @@ public class RuleSet extends ArrayList<Rule> {
 
                     for(int l = 0 ; l < size() ; l++){
                         if(get(l).isAccept(Table.state_store[left-1][index].get(j)+Table.state_store[right][index+left].get(k))){
-                            System.out.println("Yeah");
-                            Table.state_store[row][index].add(get(l).getTerminal());
+//                            System.out.println("Yeah");
+                            Table.state_store[row][index].addLog(get(l).getTerminal(),left-1 , index , right , index+left ,Table.state_store[left-1][index].get(j) , Table.state_store[right][index+left].get(k)  );
                         }
                     }
                 }
@@ -93,6 +93,7 @@ public class RuleSet extends ArrayList<Rule> {
         }
 
     }
+
 
 
 }

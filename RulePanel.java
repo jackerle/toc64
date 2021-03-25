@@ -1,3 +1,5 @@
+import javafx.scene.control.Tab;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -18,6 +20,7 @@ public class RulePanel {
     JLabel word_title;
     JButton calc_button;
     JButton page_select;
+    static JLabel summary;
 
 
      public RulePanel(GUI gui , RuleSet rules){
@@ -157,6 +160,20 @@ public class RulePanel {
          public void actionPerformed(ActionEvent actionEvent) {
              if(rules.getWordSize()>0){
                  gui.calc_cyk();
+
+                 summary = new JLabel("");
+
+                 summary.setBounds(10,400,500,40);
+                 summary.setFont(gui.jFont);
+                 summary.setBorder(BorderFactory.createEtchedBorder());
+                 if(Table.state_store[rules.getWordSize()-1][0].size()==0){
+                     summary.setText("Grammar not acceept this word");
+                 }
+                 else{
+                     summary.setText(gui.summ());
+                 }
+                 gui.add(summary);
+
              }
 
          }

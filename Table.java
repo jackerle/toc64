@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Table {
 
-    public static ArrayList<String>[][] state_store;
+    public static Log[][] state_store;
     public static boolean[][] isCheck ;
     JButton jButton[][];
     ArrayList<JPanel> list_calc = new ArrayList<JPanel>();
@@ -50,7 +50,7 @@ public class Table {
 
     public void draw_cyk(){
 
-        state_store= new ArrayList[rules.getWordSize()][rules.getWordSize()];
+        state_store= new Log[rules.getWordSize()][rules.getWordSize()];
         isCheck = new boolean[rules.getWordSize()][rules.getWordSize()];
 
         jPanel.removeAll();
@@ -104,7 +104,7 @@ public class Table {
 
 //                state_store[0][i].add(rules.isAccept(i));
                     isCheck[step][i] = true;
-                    state_store[step][i] = new ArrayList<String>();
+                    state_store[step][i] = new Log();
                     rules.isAccept(i);
                     state.addState(gui , rules , step,i);
 
@@ -117,7 +117,7 @@ public class Table {
 
                     for(int i=0;i<rules.getWordSize()-step;i++){
                         isCheck[step][i] = true;
-                        state_store[step][i] = new ArrayList<String>();
+                        state_store[step][i] = new Log();
                         rules.isAccept(step,i);
                         state.addState(gui,rules,step,i);
                     }
@@ -127,12 +127,10 @@ public class Table {
 
         }
 
-
-
-
-
-
-
+        jPanel.revalidate();
+        jPanel.repaint();
+        jScrollPane.revalidate();
+        jScrollPane.repaint();
 
     }
 
@@ -142,6 +140,17 @@ public class Table {
         jScrollPane.revalidate();
         jScrollPane.repaint();
     }
+
+
+    public String getSummary(){
+
+        String res = "";
+         res += " Start symbol is : "+ state_store[rules.getWordSize()-1][0].get(0);
+
+        return res;
+
+    }
+
 
 
 }

@@ -2,6 +2,8 @@ import javafx.scene.control.Tab;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class State extends ArrayList<JPanel> {
@@ -49,9 +51,28 @@ public class State extends ArrayList<JPanel> {
 
                 jButton[i][j] = new JButton((i<y )? display :
                         (i==y && j<=x)? display : "-");
+
+                final int _i = i;
+                final int _j = j;
+
                 jButton[i][j].setBounds(10+j*60,60+i*60,60,60);
                 jButton[i][j].setEnabled(false);
                 jButton[i][j].setVisible(true);
+                if(i<y || (i==y && j <=x)){
+                    jButton[i][j].setEnabled(true);
+                    jButton[i][j].addActionListener(new ActionListener() {
+
+                        @Override
+                        public void actionPerformed(ActionEvent actionEvent) {
+                            if(Table.state_store[_i][_j].hasNext)
+                                RulePanel.summary.setText("From "+Table.state_store[_i][_j].str_left+Table.state_store[_i][_j].str_right);
+                            else{
+                                RulePanel.summary.setText("From "+Table.state_store[_i][_j].str);
+                            }
+                        }
+                    });
+                }
+
 //                table.jButton[0][0].setBounds(0,120,60,60);
                 jButton[i][j].setPreferredSize(new Dimension(60,60));
 
