@@ -11,7 +11,6 @@ public class Rule {
         this.terminal = terminal;
         this.definition = definition;
         this.definition_list = definition.split("[|]");
-        System.out.println("Rule added Terminal= {"+terminal+ "} Definition={"+definition+"} List={"+definition_list.length+"}");
 
     }
 

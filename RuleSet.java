@@ -2,6 +2,8 @@ import java.util.ArrayList;
 
 public class RuleSet extends ArrayList<Rule> {
 
+
+
     private int count = -1;
     private String word = "";
 
@@ -47,6 +49,9 @@ public class RuleSet extends ArrayList<Rule> {
 
         return  Character.toString(getWord().charAt(index));
     }
+    public void setCount(int count) {
+        this.count = count;
+    }
 
     public void isAccept(int index){
 
@@ -57,8 +62,6 @@ public class RuleSet extends ArrayList<Rule> {
                 Table.state_store[0][index].addLog(get(j).getTerminal(),getWord(index));
             }
         }
-
-
     }
 
     public void isAccept(int row , int index){

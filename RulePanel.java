@@ -1,6 +1,8 @@
 import javafx.scene.control.Tab;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
@@ -21,6 +23,9 @@ public class RulePanel {
     JButton calc_button;
     JButton page_select;
     static JLabel summary;
+
+    JLabel stepLebel;
+    JSlider slider;
 
 
      public RulePanel(GUI gui , RuleSet rules){
@@ -90,10 +95,16 @@ public class RulePanel {
          calc_button.setFont(this.gui.jFont);
          calc_button.addActionListener(calc_listener);
 
-         page_select = new JButton("Select page");
-         page_select.setBounds(10,330,500,40);
-         page_select.setFont(this.gui.jFont);
-         page_select.addActionListener(page_select_listenner);
+         stepLebel = new JLabel("Step : ");
+         stepLebel.setFont(this.gui.jFont);
+         stepLebel.setBounds(10, 450, 400, 40);
+
+         slider = new JSlider();
+         slider.setValue(0);
+         slider.setMinimum(0);
+         slider.setMaximum(0);
+         slider.setBounds(10, 500, 400, 40);
+         slider.addChangeListener(change_listener);
 
 
          gui.add(rule_input_title);
@@ -102,7 +113,8 @@ public class RulePanel {
          gui.add(input_word);
          gui.add(word_title);
          gui.add(calc_button);
-         gui.add(page_select);
+         gui.add(stepLebel);
+         gui.add(slider);
 
     }
 
@@ -121,7 +133,7 @@ public class RulePanel {
                 String definition = (String)JOptionPane.showInputDialog("Input New Definition");
                 if(definition.length()>0){
 
-                    rules.addRule(new Rule(terminal,definition.replaceAll(" ","")));
+                    Main.gui.rules.addRule(new Rule(terminal,definition.replaceAll(" ","")));
                     ((DefaultTableModel)jTable.getModel()).addRow(new Object[]{ rules.getCount(),  terminal  , definition });
 
                 }
@@ -144,8 +156,8 @@ public class RulePanel {
 
              if(input_word_text.length()>0 && input_word_text.indexOf(" ")==-1 && isLowerLetter(input_word_text)){
 
-                 rules.setWord(input_word_text);
-                 word_title.setText(input_word_text);
+                 Main.gui.rules.setWord(input_word_text);
+                 word_title.setText(Main.gui.rules.getWord());
 
 
              }else{
@@ -158,7 +170,7 @@ public class RulePanel {
      ActionListener calc_listener = new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent actionEvent) {
-             if(rules.getWordSize()>0){
+             if(Main.gui.rules.getWordSize()>0){
                  gui.calc_cyk();
 
                  summary = new JLabel("");
@@ -166,7 +178,7 @@ public class RulePanel {
                  summary.setBounds(10,400,500,40);
                  summary.setFont(gui.jFont);
                  summary.setBorder(BorderFactory.createEtchedBorder());
-                 if(Table.state_store[rules.getWordSize()-1][0].size()==0){
+                 if(Table.state_store[Main.gui.rules.getWordSize()-1][0].size()==0){
                      summary.setText("Grammar not acceept this word");
                  }
                  else{
@@ -179,15 +191,18 @@ public class RulePanel {
          }
      };
 
-     ActionListener page_select_listenner = new ActionListener() {
+     ChangeListener change_listener = new ChangeListener() {
          @Override
-         public void actionPerformed(ActionEvent actionEvent) {
+         public void stateChanged(ChangeEvent changeEvent) {
 
-             String _page = (String)JOptionPane.showInputDialog("select your page");
-            gui.set_page(Integer.parseInt(_page));
-
+             String _page = String.valueOf(slider.getValue());
+             stepLebel.setText("Step : " + String.valueOf(slider.getValue() + 1));
+             gui.set_page(Integer.parseInt(_page)); //To change body of generated methods, choose Tools | Templates.
          }
-     } ;
+     };
+
+
+
 
 
     Boolean isCapitalLetter(String str){
