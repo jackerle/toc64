@@ -87,11 +87,6 @@ public class RuleSet extends ArrayList<Rule> {
 
             left-=1;
             right+=1;
-//            for(int j = 0 ; j < size() ; j++){
-//                if(get(j).isAccept()){
-//                    Table.state_store[0][index].add(get(j).getTerminal());
-//                }
-//            }
 
         }
 

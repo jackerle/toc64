@@ -166,11 +166,11 @@ public class RulePanel {
 
                 }
                 else{
-                    gui.alert("Please type your definition");
+                    gui.helper.alert("Please type your definition");
                 }
             }
             else{
-                gui.alert("Terminal must be not empty and Capital letter");
+                gui.helper.alert("Terminal must be not empty and Capital letter");
             }
 
         }
@@ -189,7 +189,7 @@ public class RulePanel {
 
 
              }else{
-                 gui.alert("Word must be not empty or musnt have space");
+                 gui.helper.alert("Word must be not empty or musnt have space");
              }
 
          }
@@ -222,8 +222,11 @@ public class RulePanel {
 
              String result = State.result;
              if (result.indexOf("S") != -1) {
+                 gui.helper.success("Accepted");
                  System.out.println("accept");
+
              } else {
+                 gui.helper.alert("not Accepted");
                  System.out.println("Grammar not acceept this word");
              }
 

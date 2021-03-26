@@ -7,6 +7,9 @@ public class Table {
 
     public static Log[][] state_store;
     public static boolean[][] isCheck ;
+
+
+
     JButton jButton[][];
     ArrayList<JPanel> list_calc = new ArrayList<JPanel>();
     JPanel jPanel = null;

@@ -115,6 +115,11 @@ public class Helper {
     }
 
 
-
+    void alert(String msg){
+        JOptionPane.showMessageDialog(null,msg,"Error",JOptionPane.ERROR_MESSAGE);
+    }
+    void success(String msg){
+        JOptionPane.showMessageDialog(null,msg,"Success",JOptionPane.PLAIN_MESSAGE);
+    }
 
 }
