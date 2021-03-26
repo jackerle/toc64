@@ -129,7 +129,7 @@ public class RulePanel {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
             String terminal = (String)JOptionPane.showInputDialog("Input Terminal \n- Terminal must be Capital Letter \n- Terminal must be one character ex. \"A\"");
-            if(terminal.length()>0 && isCapitalLetter(terminal)&&terminal.length()<2){
+            if(terminal.length()>0 && Main.gui.helper.isCapitalLetter(terminal)&&terminal.length()<2){
                 String definition = (String)JOptionPane.showInputDialog("Input New Definition");
                 if(definition.length()>0){
 
@@ -154,7 +154,7 @@ public class RulePanel {
 
              String input_word_text = (String)JOptionPane.showInputDialog("This word mustn't be empty and terminal symbol");
 
-             if(input_word_text.length()>0 && input_word_text.indexOf(" ")==-1 && isLowerLetter(input_word_text)){
+             if(input_word_text.length()>0 && input_word_text.indexOf(" ")==-1 && Main.gui.helper.isLowerLetter(input_word_text)){
 
                  Main.gui.rules.setWord(input_word_text);
                  word_title.setText(Main.gui.rules.getWord());
@@ -188,6 +188,17 @@ public class RulePanel {
 
              }
 
+
+             slider.setMinimum(0);
+             slider.setMaximum(gui.table.state.size() - 1);
+
+             String result = State.result;
+             if (result.indexOf("S") != -1) {
+                 System.out.println("accept");
+             } else {
+                 System.out.println("Grammar not acceept this word");
+             }
+
          }
      };
 
@@ -205,23 +216,7 @@ public class RulePanel {
 
 
 
-    Boolean isCapitalLetter(String str){
-        for(int i=str.length()-1; i>=0; i--) {
-            if(!Character.isUpperCase(str.charAt(i))) {
-                return false;
-            }
-        }
-        return true;
-    }
 
-    Boolean isLowerLetter(String str){
-        for(int i=str.length()-1; i>=0; i--) {
-            if(Character.isUpperCase(str.charAt(i))) {
-                return false;
-            }
-        }
-        return true;
-    }
 
 }
 

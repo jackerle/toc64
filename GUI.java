@@ -29,7 +29,7 @@ public class GUI extends JFrame {
             public RuleSet rules;
             public Table table;
             RulePanel rulePanel;
-            Helper helper;
+            public Helper helper;
 
 
             GUI() throws Exception{

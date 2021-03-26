@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class State extends ArrayList<JPanel> {
 
-
+    static String result;
 
     public void addState(GUI gui , RuleSet rules   , int y , int x){
 
@@ -48,6 +48,10 @@ public class State extends ArrayList<JPanel> {
 
 
 //                System.out.println(display);
+                if (i == rules.getWordSize() - 1 && j == rules.getWordSize() - count - 1) {
+
+                    result = new String(display);
+                }
 
                 jButton[i][j] = new JButton((i<y )? display :
                         (i==y && j<=x)? display : "-");
