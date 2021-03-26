@@ -8,6 +8,9 @@ import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 
 public class RulePanel {
 
@@ -27,8 +30,16 @@ public class RulePanel {
     JLabel stepLebel;
     JSlider slider;
 
+    JButton generateStringBtn;
+    JTextField inputLenText;
+    JLabel inputLen;
 
-     public RulePanel(GUI gui , RuleSet rules){
+    ArrayList<String> rule;
+    GeneratedString gen;
+
+
+
+    public RulePanel(GUI gui , RuleSet rules){
 
          this.gui = gui;
          this.rules = rules;
@@ -99,12 +110,26 @@ public class RulePanel {
          stepLebel.setFont(this.gui.jFont);
          stepLebel.setBounds(10, 450, 400, 40);
 
+         inputLen = new JLabel("Enter len of string");
+         inputLen.setBounds(10, 600, 150, 40);
+         inputLen.setFont(this.gui.jFont);
+
+         inputLenText = new JTextField();
+         inputLenText.setFont(this.gui.jFont);
+         inputLenText.setBounds(170, 600, 100, 40);
+
+
          slider = new JSlider();
          slider.setValue(0);
          slider.setMinimum(0);
          slider.setMaximum(0);
          slider.setBounds(10, 500, 400, 40);
          slider.addChangeListener(change_listener);
+
+         generateStringBtn = new JButton("Generate accept string");
+         generateStringBtn.setBounds(10, 650, 500, 40);
+         generateStringBtn.setFont(this.gui.jFont);
+         generateStringBtn.addActionListener(generateString_listener);
 
 
          gui.add(rule_input_title);
@@ -115,6 +140,9 @@ public class RulePanel {
          gui.add(calc_button);
          gui.add(stepLebel);
          gui.add(slider);
+        gui.add(inputLen);
+        gui.add(inputLenText);
+        gui.add(generateStringBtn);
 
     }
 
@@ -212,6 +240,78 @@ public class RulePanel {
          }
      };
 
+
+    ActionListener generateString_listener = new ActionListener() {
+        public void actionPerformed(ActionEvent actionEvent) {
+            if (inputLenText.getText() != null) {
+                int k = Integer.parseInt(inputLenText.getText());
+                gen = new GeneratedString();
+                ArrayList<String> listsOfString = gen.process(rules, k);
+                GuiGenString h = new GuiGenString();
+                //h.listsOfString = listsOfString;
+                //h.render();
+
+                HashMap<String, String> map = new HashMap<>();
+                ArrayList<String> acceptString = new ArrayList<>();
+
+                for (String s : listsOfString) {
+                    String input_word_text = s;
+                    //System.out.println("eeeeeeeeeee"+input_word_text);
+                    if (input_word_text.length() > 0 && input_word_text.indexOf(" ") == -1 && Main.gui.helper.isLowerLetter(input_word_text)) {
+
+                        rules.setWord(input_word_text);
+                        word_title.setText(input_word_text);
+
+                    }
+                    if (rules.getWord() == null || rules.getWordSize() == 0) {
+                        JOptionPane.showMessageDialog(gui,
+                                "Please insert valid string!!",
+                                "ERROR",
+                                JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        if (rules.getWordSize() > 0) {
+
+                            gui.calc_cyk();
+
+                            summary = new JLabel("");
+
+                            summary.setBounds(10, 400, 500, 40);
+                            summary.setFont(gui.jFont);
+                            summary.setBorder(BorderFactory.createEtchedBorder());
+                            if (Table.state_store[rules.getWordSize() - 1][0].size() == 0) {
+                                summary.setText("Grammar not acceept this word");
+                            } else {
+                                summary.setText("");
+                                summary.setText(gui.summ());
+                            }
+                            gui.add(summary);
+
+                        }
+
+                        slider.setMinimum(0);
+                        slider.setMaximum(gui.table.state.size() - 1);
+
+                        String result = State.result;
+                        if (result.indexOf("S") != -1) {
+                            map.put(s, "Grammer accept");
+                            acceptString.add(s);
+                            //System.out.println("Grammer accept");
+                        } else {
+                            map.put(s, "Grammar not acceept this word");
+                            //System.out.println("Grammar not acceept this word");
+                        }
+
+                    }
+                }
+
+
+                h.listsOfString = listsOfString;
+                h.listsOfAcceptString = acceptString;
+                h.render();
+                GuiGenString.output.setText("Total accept string : "+acceptString.size());
+            }
+        }
+    };
 
 
 
